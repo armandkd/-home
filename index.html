@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel=icon href="images/ic_launcher_home.png" sizes="34x34" type="image/png">
+<link href="SpryAssets/SpryTabbedPanels.css" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,900,700,500,300,100" rel="stylesheet" type="text/css">
+<title>@home</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="SpryAssets/SpryTabbedPanels.js" type="text/javascript"></script>
+<style>
+html {
+	font-family: 'Roboto', sans-serif;
+	font-weight:400;
+	text-align:center;
+	background:#666;
+	margin:20px;
+}
+h1 {
+	font-size:50px;
+	color:#333;
+	text-shadow: 2px 2px 5px rgba(150, 150, 150, 1);
+}
+.TabbedPanelsContent {
+	margin:0% 5%;
+	padding-bottom:25px;
+}
+th {
+	padding:5px;
+}
+#acteurs {
+	float:left;
+}
+.capteurs {
+	background:#333;
+	color:#CCC;
+	text-align:center;
+	float:right;
+	clear:right;
+	width:20%;
+	padding:8px;
+	margin:5px;
+}
+.emplacement {
+	font-weight:100;
+}
+.valeur {
+	color:#8ECA27;
+}
+.onoffswitch {
+    position: relative; width: 100px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 0px solid #999999; border-radius: 0px;
+}
+.onoffswitch-inner {
+    width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner > div {
+    float: left; position: relative; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.onoffswitch-inner .onoffswitch-active {
+    padding-left: 15px;
+    background-color: #C2C2C2; color: #FFFFFF;
+}
+.onoffswitch-inner .onoffswitch-inactive {
+    padding-right: 15px;
+    background-color: #C2C2C2; color: #FFFFFF;
+    text-align: right;
+}
+.onoffswitch-switch {
+    width: 40px; margin: 0px; text-align: center; 
+    border: 0px solid #999999;border-radius: 0px; 
+    position: absolute; top: 0; bottom: 0;
+}
+.onoffswitch-active .onoffswitch-switch {
+    background: #8ECA27; left: 0;
+}
+.onoffswitch-inactive .onoffswitch-switch {
+    background: #A1A1A1; right: 0;
+}
+.onoffswitch-active .onoffswitch-switch:before {
+    content: " "; position: absolute; top: 0; left: 40px; 
+    border-style: solid; border-color: #8ECA27 transparent transparent #8ECA27; border-width: 15px 10px;
+}
+.onoffswitch-inactive .onoffswitch-switch:before {
+    content: " "; position: absolute; top: 0; right: 40px; 
+    border-style: solid; border-color: transparent #A1A1A1 #A1A1A1 transparent; border-width: 15px 10px;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+</style>
+</head>
+<body>
+<img src="images/ic_launcher_home.png"><h1>@home</h1>
+<div id="TabbedPanels1" class="TabbedPanels">
+	<ul class="TabbedPanelsTabGroup">
+		<li class="TabbedPanelsTab" tabindex="0">Vue générale</li>
+		<li class="TabbedPanelsTab" tabindex="0">Configuration</li>
+	</ul>
+	<div class="TabbedPanelsContentGroup">
+		<div class="TabbedPanelsContent">
+			<table width="100%" border="0">
+				<tr>
+					<th width="60%"><h3>Acteurs</h3></th>
+					<th></th>
+					<th width="22%"><h3>Capteurs</h3></th>
+				</tr>
+			</table>
+			<table width="60%" border="0" id="acteurs">
+				<tr>
+					<th scope="col" width="38%">Type</th>
+					<th scope="col" width="38%">Emplacement</th>
+					<th scope="col" width="10%">Statut</th>
+				</tr>
+				<script>
+					xmlhttp=new XMLHttpRequest();
+					xmlhttp.open("GET","config.xml",false);
+					xmlhttp.send();
+					xmlDoc=xmlhttp.responseXML; 
+					var x=xmlDoc.getElementsByTagName("acteur");
+					for (i=0;i<x.length;i++)
+					{ 
+						document.writeln("<tr><td>");
+						document.writeln(x[i].getElementsByTagName("type")[0].childNodes[0].nodeValue);
+						document.writeln("</td><td>");
+						document.writeln(x[i].getElementsByTagName("emplacement")[0].childNodes[0].nodeValue);
+						document.writeln("</td><td>");
+						document.writeln('<div class="onoffswitch" id="' + x[i].getAttribute('id') + '">');
+						document.write('<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch' + x[i].getAttribute("id") + '"');
+						if(x[i].getElementsByTagName("statut")[0].childNodes[0].nodeValue == 1) {
+							document.writeln(' checked>');
+						} else {
+							document.writeln('>');
+						}
+						document.writeln('<label class="onoffswitch-label" for="myonoffswitch' + x[i].getAttribute('id') + '">');
+						document.writeln('<div class="onoffswitch-inner">');
+						document.writeln('<div class="onoffswitch-active" onClick="$.get(\'/?f=0&id=' + x[i].getAttribute('id') + '\')"><div class="onoffswitch-switch">ON</div></div>');
+						document.writeln('<div class="onoffswitch-inactive" onClick="$.get(\'/?f=1&id=' + x[i].getAttribute('id') + '\')"><div class="onoffswitch-switch">OFF</div></div>');
+						document.writeln('</div></label></div>');
+						document.writeln("</td></tr>");
+					}
+				</script>
+			</table>
+			<script>
+				var x=xmlDoc.getElementsByTagName("capteur");
+				for (i=0;i<x.length;i++)
+				{ 
+					document.writeln("<div class='capteurs'>");
+					document.writeln(x[i].getElementsByTagName("type")[0].childNodes[0].nodeValue + "<br>");
+					document.writeln("<span class='emplacement'>" + x[i].getElementsByTagName("emplacement")[0].childNodes[0].nodeValue + "</span><br>");
+					document.writeln("<span class='valeur'>" + x[i].getElementsByTagName("valeur")[0].childNodes[0].nodeValue + x[i].getElementsByTagName("unite")[0].childNodes[0].nodeValue + "</span>");
+					document.writeln("</div>");
+				}
+			</script>
+		</div>
+		<div class="TabbedPanelsContent">
+			Aucune configuration nécessaire.
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var TabbedPanels1 = new Spry.Widget.TabbedPanels("TabbedPanels1");
+</script>
+</body>
+</html>

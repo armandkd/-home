@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<options>
+	</options>
+	<acteurs>
+		<acteur id="01">
+			<type>Chauffage</type>
+			<emplacement>Appartement</emplacement>
+			<statut>0</statut>
+		</acteur>
+		<acteur id="02">
+			<type>Lumière</type>
+			<emplacement>Salon</emplacement>
+			<statut>1</statut>
+		</acteur>
+	</acteurs>
+	<capteurs>
+		<capteur>
+			<type>Température</type>
+			<emplacement>Salon</emplacement>
+			<valeur>20</valeur>
+			<unite>°C</unite>
+		</capteur>
+		<capteur>
+			<type>Température</type>
+			<emplacement>Entrée</emplacement>
+			<valeur>18</valeur>
+			<unite>°C</unite>
+		</capteur>
+	</capteurs>
+</config>
